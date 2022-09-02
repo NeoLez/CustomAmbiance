@@ -23,7 +23,7 @@ public class Client implements ClientModInitializer {
 	public static final Identifier SPARROW_CHIRP_IDENTIFIER = new Identifier(MODID,"sparrow_chirp");
 	public static final SoundEvent SPARROW_CHIRP = new SoundEvent(SPARROW_CHIRP_IDENTIFIER);
 
-	@Overrides
+	@Override
 	public void onInitializeClient() {
 
 		Registry.register(Registry.SOUND_EVENT, SPARROW_CHIRP_IDENTIFIER, SPARROW_CHIRP);
