@@ -4,10 +4,12 @@ import net.fabricmc.custom_ambiance.Client;
 import net.fabricmc.custom_ambiance.soundevent.CASoundEventData;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.Map;
+
 public class RandomChance implements SoundEventPredicate{
     float baseChance;
     float chanceIncrement;
-    int failedConsecutiveAttempts=0;
+    private int failedConsecutiveAttempts=0;
 
     public RandomChance(float baseChance, float chanceIncrement){
         this.baseChance=baseChance;
@@ -26,5 +28,9 @@ public class RandomChance implements SoundEventPredicate{
             failedConsecutiveAttempts++;
             return false;
         }
+    }
+
+    public static SoundEventPredicate fromMapData(Map<String, Object> data){
+        return new RandomChance((Integer) data.get("baseChance"), (Integer) data.get("chanceIncrement"));
     }
 }
