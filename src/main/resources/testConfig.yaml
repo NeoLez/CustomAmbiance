@@ -1,0 +1,11 @@
+BlockChecks:
+  - Conditions:
+      IsBlockOfTag:
+        tagIdentifier: minecraft:leaves
+    Consequences:
+      PlaySound:
+        soundIdentifier: test:sparrow_chirp
+        soundCategory: AMBIENT
+        volume: ''
+        pitch: ''
+        distanceAttenuation: true

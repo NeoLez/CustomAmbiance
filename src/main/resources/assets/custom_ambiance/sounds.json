@@ -1,0 +1,16 @@
+{
+  "sparrow_chirp": {
+    "sounds": [
+      "custom_ambiance:sparrow_chirp1",
+      "custom_ambiance:sparrow_chirp2",
+      "custom_ambiance:sparrow_chirp3",
+      "custom_ambiance:sparrow_chirp4",
+      "custom_ambiance:sparrow_chirp5",
+      "custom_ambiance:sparrow_chirp6",
+      "custom_ambiance:sparrow_chirp7",
+      "custom_ambiance:sparrow_chirp8",
+      "custom_ambiance:sparrow_chirp9",
+      "custom_ambiance:sparrow_chirp10"
+    ]
+  }
+}
