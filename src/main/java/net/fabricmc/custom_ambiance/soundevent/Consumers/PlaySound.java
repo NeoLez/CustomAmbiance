@@ -17,7 +17,6 @@ public record PlaySound(SoundEvent sound, SoundCategory category, float volume, 
     }
 
     public static SoundEventConsumer fromMapData(Map<String,Object> data){
-        Client.LOGGER.info((String) data.get("soundCategory"));
         return new PlaySound(   Registry.SOUND_EVENT.get(new Identifier((String)data.get("soundIdentifier"))),
                                 SoundCategory.valueOf((String) data.get("soundCategory")),
                                 ((Double)data.get("volume")).floatValue(),
