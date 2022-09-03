@@ -1,22 +1,21 @@
-package net.fabricmc.custom_ambiance.soundevent.Consumers;
+package net.fabricmc.custom_ambiance.soundevent.predicates;
 
 import net.fabricmc.custom_ambiance.Client;
 import net.fabricmc.custom_ambiance.soundevent.CASoundEventData;
-import net.fabricmc.custom_ambiance.soundevent.predicates.SoundEventPredicate;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-public interface SoundEventConsumer extends Consumer<CASoundEventData> {
-    static List<SoundEventConsumer> getConsumersFromMap(Map<String, Object> kv){
-        LinkedList<SoundEventConsumer> consumers = new LinkedList<>();
+public interface SoundEventPredicate extends Predicate<CASoundEventData> {
+    static List<SoundEventPredicate> getPredicatesFromMap(Map<String, Object> kv){
+        LinkedList<SoundEventPredicate> predicates = new LinkedList<>();
         for(String type : kv.keySet()){
             try {
-                Class<?> predicate = Class.forName("net.fabricmc.custom_ambiance.soundevent.consumers." + type);
+                Class<?> predicate = Class.forName("net.fabricmc.custom_ambiance.soundevent.predicates." + type);
                 Method method = predicate.getMethod("fromMapData", Map.class);
                 Object value = kv.get(type);
                 if(value instanceof Map<?,?>) {
@@ -24,18 +23,18 @@ public interface SoundEventConsumer extends Consumer<CASoundEventData> {
                     Object instance = method.invoke(null, value);
 
                     if (instance instanceof SoundEventPredicate)
-                        consumers.add((SoundEventConsumer) instance);
+                        predicates.add((SoundEventPredicate) instance);
                 }
             }catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException e){
-                Client.LOGGER.error("No actions of name "+type+" found. Check your configuration file for typos.");
+                Client.LOGGER.error("No conditions of name "+type+" found. Check your configuration file for typos.");
                 e.printStackTrace();
                 throw new RuntimeException(e);
             } catch (InvocationTargetException e){
-                Client.LOGGER.error("Error during creation of action.");
+                Client.LOGGER.error("Error during creation of condition.");
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
         }
-        return consumers;
+        return predicates;
     }
 }

@@ -9,6 +9,7 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public record PlaySound(SoundEvent sound, SoundCategory category, float volume, float pitch, boolean useDistance) implements SoundEventConsumer{
     @Override
     public void accept(CASoundEventData soundEventData) {

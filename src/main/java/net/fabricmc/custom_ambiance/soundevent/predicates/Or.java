@@ -1,13 +1,12 @@
-package net.fabricmc.custom_ambiance.soundevent.Predicates;
+package net.fabricmc.custom_ambiance.soundevent.predicates;
 
-import net.fabricmc.custom_ambiance.soundevent.CASoundEvent;
 import net.fabricmc.custom_ambiance.soundevent.CASoundEventData;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class Or implements SoundEventPredicate{
     private final List<SoundEventPredicate> conditions1;
     private final List<SoundEventPredicate> conditions2;
@@ -32,8 +31,8 @@ public class Or implements SoundEventPredicate{
 
         return result;
     }
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked"})
     public static SoundEventPredicate fromMapData(Map<String, Object> data){
-        return new Or(CASoundEvent.getPredicates((Map<String,Object>)data.get("conditions1")), CASoundEvent.getPredicates((Map<String,Object>)data.get("conditions2")));
+        return new Or(SoundEventPredicate.getPredicatesFromMap((Map<String,Object>)data.get("conditions1")), SoundEventPredicate.getPredicatesFromMap((Map<String,Object>)data.get("conditions2")));
     }
 }

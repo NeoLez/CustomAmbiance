@@ -3,15 +3,9 @@ package net.fabricmc.custom_ambiance.soundevent;
 import net.fabricmc.custom_ambiance.Config;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.custom_ambiance.Client;
-import net.fabricmc.custom_ambiance.soundevent.Consumers.PlaySound;
-import net.fabricmc.custom_ambiance.soundevent.Consumers.SoundEventConsumer;
-import net.fabricmc.custom_ambiance.soundevent.Predicates.IsBlockOfTag;
-import net.fabricmc.custom_ambiance.soundevent.Predicates.SoundEventPredicate;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -22,7 +16,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class CASoundEventManager {
-    private static final int SAMPLES_PER_TICK= 2;
+    private static final int SAMPLES_PER_TICK= 10;
     private static List<CASoundEvent> soundEvents = new LinkedList<>();
     private static final Supplier<Integer> randomVal = ()->{
         int val = Client.RANDOM.nextBetween(8,24);
@@ -37,11 +31,6 @@ public class CASoundEventManager {
     }
 
     public static void start(){
-        /*LinkedList<SoundEventPredicate> predicates = new LinkedList<>();
-        predicates.add(new IsBlockOfTag(BlockTags.LEAVES));
-        LinkedList<SoundEventConsumer> consumers = new LinkedList<>();
-        consumers.add(new PlaySound(Client.SPARROW_CHIRP, SoundCategory.AMBIENT, 1.75f, 1, true));
-        soundEvents.add(new CASoundEvent(predicates, consumers));*/
 
         soundEvents = Config.getSoundEventList();
 

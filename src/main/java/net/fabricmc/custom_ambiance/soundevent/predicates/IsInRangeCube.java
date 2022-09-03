@@ -1,9 +1,10 @@
-package net.fabricmc.custom_ambiance.soundevent.Predicates;
+package net.fabricmc.custom_ambiance.soundevent.predicates;
 
 import net.fabricmc.custom_ambiance.soundevent.CASoundEventData;
 
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public record IsInRangeCube(int min, int max) implements SoundEventPredicate{
     @Override
     public boolean test(CASoundEventData caSoundEventData) {

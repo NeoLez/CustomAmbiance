@@ -1,4 +1,4 @@
-package net.fabricmc.custom_ambiance.soundevent.Predicates;
+package net.fabricmc.custom_ambiance.soundevent.predicates;
 
 import net.fabricmc.fabric.api.tag.convention.v1.TagUtil;
 import net.fabricmc.custom_ambiance.soundevent.CASoundEventData;
@@ -9,15 +9,14 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public record IsBlockOfTag(TagKey<Block> tag) implements SoundEventPredicate{
     @Override
     public boolean test(CASoundEventData caSoundEventData) {
         return TagUtil.isIn(tag, caSoundEventData.block());
     }
 
-
     public static SoundEventPredicate fromMapData(Map<String,Object> data){
-
         return new IsBlockOfTag(TagKey.of(Registry.BLOCK_KEY, new Identifier((String) data.get("tagIdentifier"))));
     }
 }
