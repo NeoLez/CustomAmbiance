@@ -3,6 +3,7 @@ package net.fabricmc.custom_ambiance.soundevent;
 import net.fabricmc.custom_ambiance.ConfigSection;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.custom_ambiance.Client;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -41,7 +42,7 @@ public class CASoundEventManager {
 
     public static void start(){
 
-        loadConfig();
+        ServerWorldEvents.LOAD.register((server, world)-> loadConfig());
 
         ServerTickEvents.END_SERVER_TICK.register(code);
     }

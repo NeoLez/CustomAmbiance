@@ -1,6 +1,7 @@
 package net.fabricmc.custom_ambiance.soundevent.predicates;
 
 import net.fabricmc.custom_ambiance.ConfigSection;
+import net.fabricmc.custom_ambiance.soundevent.CASoundEvent;
 import net.fabricmc.custom_ambiance.soundevent.CASoundEventData;
 
 import java.util.Iterator;
@@ -18,7 +19,7 @@ public class Or implements SoundEventPredicate{
 
     @Override
     public boolean test(CASoundEventData soundEventData) {
-        return evaluate(conditions1, soundEventData) | evaluate(conditions2, soundEventData);
+        return evaluate(conditions1, soundEventData) || evaluate(conditions2, soundEventData);
     }
 
     private static boolean evaluate(List<SoundEventPredicate> perdicates, CASoundEventData data){

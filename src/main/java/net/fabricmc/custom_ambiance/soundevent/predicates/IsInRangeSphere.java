@@ -11,7 +11,6 @@ public record IsInRangeSphere(int min, int max) implements SoundEventPredicate{
         return distance>=min && distance<=max;
     }
 
-    @SuppressWarnings("unused")
     public static SoundEventPredicate fromConfig(ConfigSection config){
         return new IsInRangeSphere(config.getInteger("minRadius"), config.getInteger("maxRadius"));
     }

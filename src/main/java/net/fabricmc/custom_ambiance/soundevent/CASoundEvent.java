@@ -1,13 +1,11 @@
 package net.fabricmc.custom_ambiance.soundevent;
 
-import net.fabricmc.custom_ambiance.Client;
 import net.fabricmc.custom_ambiance.ConfigSection;
 import net.fabricmc.custom_ambiance.soundevent.consumers.SoundEventConsumer;
 import net.fabricmc.custom_ambiance.soundevent.predicates.*;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class CASoundEvent {
     private final List<SoundEventPredicate> predicates;
