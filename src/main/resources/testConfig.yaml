@@ -1,11 +1,19 @@
 BlockChecks:
   - Conditions:
-      IsBlockOfTag:
-        tagIdentifier: minecraft:leaves
+      Or:
+        conditions1:
+          IsBlockOfTag:
+            tagIdentifier: minecraft:leaves
+        conditions2:
+          IsBlock:
+            block: minecraft:sand
+      RandomChance:
+        baseChance: 5.0
+        chanceIncrement: 1.0
     Consequences:
       PlaySound:
-        soundIdentifier: test:sparrow_chirp
+        soundIdentifier: custom_ambiance:sparrow_chirp
         soundCategory: AMBIENT
-        volume: ''
-        pitch: ''
+        volume: 2.25
+        pitch: 1.0
         distanceAttenuation: true

@@ -1,6 +1,7 @@
 package net.fabricmc.custom_ambiance.soundevent.predicates;
 
 import net.fabricmc.custom_ambiance.Client;
+import net.fabricmc.custom_ambiance.ConfigSection;
 import net.fabricmc.custom_ambiance.soundevent.CASoundEventData;
 
 import java.lang.reflect.InvocationTargetException;
@@ -11,20 +12,22 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public interface SoundEventPredicate extends Predicate<CASoundEventData> {
-    static List<SoundEventPredicate> getPredicatesFromMap(Map<String, Object> kv){
+    static List<SoundEventPredicate> getPredicatesFromConfig(ConfigSection config){
         LinkedList<SoundEventPredicate> predicates = new LinkedList<>();
-        for(String type : kv.keySet()){
+        for(String type : config.getKeys()){
             try {
                 Class<?> predicate = Class.forName("net.fabricmc.custom_ambiance.soundevent.predicates." + type);
-                Method method = predicate.getMethod("fromMapData", Map.class);
-                Object value = kv.get(type);
-                if(value instanceof Map<?,?>) {
-                    //noinspection JavaReflectionInvocation
+                Method method = predicate.getMethod("fromConfig", ConfigSection.class);
+                try {
+                    ConfigSection value = config.getConfigSection(type);
                     Object instance = method.invoke(null, value);
 
                     if (instance instanceof SoundEventPredicate)
                         predicates.add((SoundEventPredicate) instance);
+                }catch (NullPointerException e){
+                    Client.LOGGER.error("Couldn't load config for condition of type "+type);
                 }
+
             }catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException e){
                 Client.LOGGER.error("No conditions of name "+type+" found. Check your configuration file for typos.");
                 e.printStackTrace();

@@ -1,8 +1,7 @@
 package net.fabricmc.custom_ambiance.soundevent.predicates;
 
+import net.fabricmc.custom_ambiance.ConfigSection;
 import net.fabricmc.custom_ambiance.soundevent.CASoundEventData;
-
-import java.util.Map;
 
 @SuppressWarnings("unused")
 public record IsInRangeSphere(int min, int max) implements SoundEventPredicate{
@@ -13,7 +12,7 @@ public record IsInRangeSphere(int min, int max) implements SoundEventPredicate{
     }
 
     @SuppressWarnings("unused")
-    public static SoundEventPredicate fromMapData(Map<String, Object> data){
-        return new IsInRangeSphere((Integer) data.get("minRadius"), (Integer) data.get("maxRadius"));
+    public static SoundEventPredicate fromConfig(ConfigSection config){
+        return new IsInRangeSphere(config.getInteger("minRadius"), config.getInteger("maxRadius"));
     }
 }

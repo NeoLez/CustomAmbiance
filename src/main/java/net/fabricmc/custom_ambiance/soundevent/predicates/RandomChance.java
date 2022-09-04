@@ -1,10 +1,9 @@
 package net.fabricmc.custom_ambiance.soundevent.predicates;
 
 import net.fabricmc.custom_ambiance.Client;
+import net.fabricmc.custom_ambiance.ConfigSection;
 import net.fabricmc.custom_ambiance.soundevent.CASoundEventData;
 import net.minecraft.util.math.MathHelper;
-
-import java.util.Map;
 
 @SuppressWarnings("unused")
 public class RandomChance implements SoundEventPredicate{
@@ -31,7 +30,7 @@ public class RandomChance implements SoundEventPredicate{
         }
     }
 
-    public static SoundEventPredicate fromMapData(Map<String, Object> data){
-        return new RandomChance(((Double) data.get("baseChance")).floatValue(), ((Double) data.get("chanceIncrement")).floatValue());
+    public static SoundEventPredicate fromConfig(ConfigSection config){
+        return new RandomChance((config.getDouble("baseChance")).floatValue(), (config.getDouble("chanceIncrement")).floatValue());
     }
 }

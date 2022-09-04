@@ -1,6 +1,8 @@
 package net.fabricmc.custom_ambiance.soundevent;
 
-import net.fabricmc.custom_ambiance.soundevent.Consumers.SoundEventConsumer;
+import net.fabricmc.custom_ambiance.Client;
+import net.fabricmc.custom_ambiance.ConfigSection;
+import net.fabricmc.custom_ambiance.soundevent.consumers.SoundEventConsumer;
 import net.fabricmc.custom_ambiance.soundevent.predicates.*;
 
 import java.util.Iterator;
@@ -38,9 +40,8 @@ public class CASoundEvent {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static CASoundEvent getEventFromMap(Map<String, Object> kv){
-        return new CASoundEvent(SoundEventPredicate.getPredicatesFromMap((Map<String, Object>) kv.get("Conditions")), SoundEventConsumer.getConsumersFromMap((Map<String, Object>)kv.get("Consequences")));
+    public static CASoundEvent getEventFromConfig(ConfigSection config){
+        return new CASoundEvent(SoundEventPredicate.getPredicatesFromConfig(config.getConfigSection("Conditions")), SoundEventConsumer.getConsumersFromConfig(config.getConfigSection("Actions")));
     }
 
 }

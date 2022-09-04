@@ -1,31 +1,33 @@
-package net.fabricmc.custom_ambiance.soundevent.Consumers;
+package net.fabricmc.custom_ambiance.soundevent.consumers;
 
 import net.fabricmc.custom_ambiance.Client;
+import net.fabricmc.custom_ambiance.ConfigSection;
 import net.fabricmc.custom_ambiance.soundevent.CASoundEventData;
-import net.fabricmc.custom_ambiance.soundevent.predicates.SoundEventPredicate;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public interface SoundEventConsumer extends Consumer<CASoundEventData> {
-    static List<SoundEventConsumer> getConsumersFromMap(Map<String, Object> kv){
+    static List<SoundEventConsumer> getConsumersFromConfig(ConfigSection config){
         LinkedList<SoundEventConsumer> consumers = new LinkedList<>();
-        for(String type : kv.keySet()){
+        for(String type : config.getKeys()){
             try {
                 Class<?> predicate = Class.forName("net.fabricmc.custom_ambiance.soundevent.consumers." + type);
-                Method method = predicate.getMethod("fromMapData", Map.class);
-                Object value = kv.get(type);
-                if(value instanceof Map<?,?>) {
-                    //noinspection JavaReflectionInvocation
+                Method method = predicate.getMethod("fromConfig", ConfigSection.class);
+
+                try {
+                    ConfigSection value = config.getConfigSection(type);
                     Object instance = method.invoke(null, value);
 
-                    if (instance instanceof SoundEventPredicate)
+                    if (instance instanceof SoundEventConsumer)
                         consumers.add((SoundEventConsumer) instance);
+                }catch (NullPointerException e){
+                    Client.LOGGER.error("Couldn't load config for action of type "+type);
                 }
+
             }catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException e){
                 Client.LOGGER.error("No actions of name "+type+" found. Check your configuration file for typos.");
                 e.printStackTrace();
