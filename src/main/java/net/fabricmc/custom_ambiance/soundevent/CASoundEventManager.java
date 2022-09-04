@@ -40,26 +40,8 @@ public class CASoundEventManager {
     };
 
     public static void start(){
-        String path = Client.CLIENT.runDirectory.getAbsolutePath()+"/config/"+Client.MODID+".yaml";
-        ConfigSection config;
-        try {
-            config = ConfigSection.getConfig(getFile(path, "testConfig.yaml"));
-        } catch (FileNotFoundException e) {
-            Client.LOGGER.error("Couldn't load config file at path: " + path);
-            throw new RuntimeException(e);
-        }
 
-        try {
-            List<ConfigSection> listOfSoundEventConfigs = config.getListOfConfigSections("BlockChecks");
-            for(ConfigSection c : listOfSoundEventConfigs){
-                soundEvents.add(CASoundEvent.getEventFromConfig(c));
-            }
-        }catch (NullPointerException e){
-            Client.LOGGER.error("Coudln't find BlockChecks section in config file.");
-        }
-
-
-        //soundEvents = Config.getSoundEventList();
+        loadConfig();
 
         ServerTickEvents.END_SERVER_TICK.register(code);
     }
@@ -80,10 +62,32 @@ public class CASoundEventManager {
             if (worldOpt.isPresent()) {
                 Optional<RegistryKey<Block>> keyOptional = worldOpt.get().getBlockState(samplePos).getRegistryEntry().getKey();
                 if (keyOptional.isPresent())
-                    return new CASoundEventData(Registry.BLOCK.get(keyOptional.get()), samplePos, offset);
+                    return new CASoundEventData(playerOpt.get().clientWorld, Registry.BLOCK.get(keyOptional.get()), samplePos, offset);
             }
         }
         return null;
+    }
+
+    public static void loadConfig(){
+        soundEvents.clear();
+
+        String path = Client.CLIENT.runDirectory.getAbsolutePath()+"/config/"+Client.MODID+".yaml";
+        ConfigSection config;
+        try {
+            config = ConfigSection.getConfig(getFile(path, "testConfig.yaml"));
+        } catch (FileNotFoundException e) {
+            Client.LOGGER.error("Couldn't load config file at path: " + path);
+            throw new RuntimeException(e);
+        }
+
+        try {
+            List<ConfigSection> listOfSoundEventConfigs = config.getListOfConfigSections("BlockChecks");
+            for(ConfigSection c : listOfSoundEventConfigs){
+                soundEvents.add(CASoundEvent.getEventFromConfig(c));
+            }
+        }catch (NullPointerException e){
+            Client.LOGGER.error("Coudln't find BlockChecks section in config file.");
+        }
     }
 
     public static File getFile(String filePath, String fallbackFilePath){
